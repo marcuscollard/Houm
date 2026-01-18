@@ -20,16 +20,17 @@
         <section class="map-wrap">
           <div id="map" class="map" aria-label="Listings map"></div>
           <div id="map-overlay" class="map-overlay">
-            <div class="overlay-card">
-              <h2>Connect the map</h2>
-              <p>
-                Add your Google Maps API key in
-                <span class="mono">index.html</span> to activate the map.
-              </p>
-            </div>
+          <div class="overlay-card">
+            <h2>Connect the map</h2>
+            <p id="map-status">
+              Set <span class="mono">GOOGLE_MAPS_API_KEY</span> in
+              <span class="mono">.env</span> and run the backend server to activate
+              the map.
+            </p>
           </div>
-          <div class="map-legend">
-            <span class="legend-dot"></span>
+        </div>
+        <div class="map-legend">
+          <span class="legend-dot"></span>
             <span>Tap a dot to load the home details.</span>
           </div>
         </section>
@@ -83,10 +84,5 @@
     </div>
 
     <script src="app.js"></script>
-    <script
-      async
-      defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAndW12_Mp-j4W9rwBhRbOoe5iFIzGvNPk&callback=initMap"
-    ></script>
   </body>
 </html>

@@ -128,6 +128,7 @@ const listingYear = document.getElementById("listing-year");
 const listingImage = document.getElementById("listing-image");
 const listingFeatures = document.getElementById("listing-features");
 const mapOverlay = document.getElementById("map-overlay");
+const mapStatus = document.getElementById("map-status");
 
 function updateListing(house) {
   listingTitle.textContent = house.title;
@@ -216,8 +217,47 @@ function initMap() {
   selectHouse(activeIndex);
 }
 
+function showMapError(message) {
+  if (mapStatus) {
+    mapStatus.textContent = message;
+  }
+  if (mapOverlay) {
+    mapOverlay.classList.remove("hidden");
+  }
+}
+
+async function loadGoogleMaps() {
+  try {
+    const response = await fetch("/config", { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error("Map config request failed.");
+    }
+
+    const data = await response.json();
+    const apiKey = data.googleMapsApiKey;
+    if (!apiKey) {
+      throw new Error("Missing Google Maps API key.");
+    }
+
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(
+      apiKey
+    )}&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    script.onerror = () => {
+      showMapError("Failed to load Google Maps.");
+    };
+    document.head.appendChild(script);
+  } catch (error) {
+    showMapError("Set GOOGLE_MAPS_API_KEY in .env and run the backend server.");
+    console.warn("Map setup failed:", error);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   updateListing(houses[0]);
+  loadGoogleMaps();
 });
 
 window.initMap = initMap;
