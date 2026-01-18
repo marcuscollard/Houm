@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Houm | Map-first listings</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div>
+          <div class="brand">Houm</div>
+          <div class="tagline">Empowering homebuyers with the same know-how as a professional broker.</div>
+        </div>
+        <button class="cta">List your home</button>
+      </header>
+
+      <main class="content">
+        <section class="map-wrap">
+          <div id="map" class="map" aria-label="Listings map"></div>
+          <div id="map-overlay" class="map-overlay">
+            <div class="overlay-card">
+              <h2>Connect the map</h2>
+              <p>
+                Add your Google Maps API key in
+                <span class="mono">index.html</span> to activate the map.
+              </p>
+            </div>
+          </div>
+          <div class="map-legend">
+            <span class="legend-dot"></span>
+            <span>Tap a dot to load the home details.</span>
+          </div>
+        </section>
+
+        <aside class="listing-panel">
+          <div class="listing-media">
+            <img
+              id="listing-image"
+              src="assets/house-placeholder.svg"
+              alt="Selected house"
+            />
+            <div class="price-badge" id="listing-price">$1,250,000</div>
+          </div>
+          <div class="listing-body">
+            <div class="listing-title" id="listing-title">Hammock Bay Villa</div>
+            <div class="listing-location" id="listing-location">
+              Oak Harbor, Stockholm County
+            </div>
+
+            <div class="stat-grid">
+              <div class="stat">
+                <div class="label">Beds</div>
+                <div class="value" id="listing-beds">4</div>
+              </div>
+              <div class="stat">
+                <div class="label">Baths</div>
+                <div class="value" id="listing-baths">3</div>
+              </div>
+              <div class="stat">
+                <div class="label">Area</div>
+                <div class="value" id="listing-area">210 m2</div>
+              </div>
+              <div class="stat">
+                <div class="label">Year</div>
+                <div class="value" id="listing-year">2018</div>
+              </div>
+            </div>
+
+            <div class="features">
+              <h3>Highlights</h3>
+              <ul id="listing-features"></ul>
+            </div>
+
+            <div class="cta-group">
+              <button class="primary">Schedule tour</button>
+              <button class="ghost">Save</button>
+            </div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAndW12_Mp-j4W9rwBhRbOoe5iFIzGvNPk&callback=initMap"
+    ></script>
+  </body>
+</html>
