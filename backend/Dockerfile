@@ -6,10 +6,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-COPY requirements.api.txt .
+COPY ["requirements.api.txt", "."]
 RUN pip install --no-cache-dir -r requirements.api.txt
 
-COPY backend backend
+COPY [".", "/app/backend"]
 
 EXPOSE 8000
 

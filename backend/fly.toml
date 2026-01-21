@@ -1,6 +1,6 @@
 # fly.toml app configuration file generated for Houm backend
 
-app = 'houm-backend'
+app = 'houm'
 primary_region = 'arn'
 
 [build]

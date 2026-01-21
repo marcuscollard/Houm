@@ -11,7 +11,10 @@ from urllib.parse import parse_qs, urlparse
 import psycopg2
 import psycopg2.extras
 
-import settings
+try:
+    from backend import settings
+except ImportError:  # pragma: no cover - fallback for direct script runs
+    import settings
 
 BASE_DIR = settings.BASE_DIR
 

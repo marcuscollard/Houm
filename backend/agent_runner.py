@@ -8,7 +8,10 @@ import sys
 from agents import Agent, Runner
 from agents.mcp import MCPServerStdio
 
-import settings
+try:
+    from backend import settings
+except ImportError:  # pragma: no cover - fallback for direct script runs
+    import settings
 
 
 def _server_params(server_path: str) -> dict[str, object]:

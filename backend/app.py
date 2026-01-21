@@ -11,7 +11,10 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 
-import settings
+try:
+    from backend import settings
+except ImportError:  # pragma: no cover - fallback for direct script runs
+    import settings
 
 
 BASE_DIR = settings.BASE_DIR

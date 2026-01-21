@@ -10,7 +10,10 @@ import urllib.request
 import psycopg2
 import psycopg2.extras
 
-import settings
+try:
+    from backend import settings
+except ImportError:  # pragma: no cover - fallback for direct script runs
+    import settings
 
 
 def _ensure_columns(conn) -> None:

@@ -12,7 +12,10 @@ from mcp.server.fastmcp import FastMCP
 import psycopg2
 import psycopg2.extras
 
-import settings
+try:
+    from backend import settings
+except ImportError:  # pragma: no cover - fallback for direct script runs
+    import settings
 
 
 LOG_TOOL_CALLS = os.getenv("MCP_LOG_CALLS") == "1"
