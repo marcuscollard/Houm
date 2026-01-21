@@ -1,12 +1,15 @@
-# fly.toml app configuration file generated for Houm backend
+# fly.toml app configuration file generated for houm on 2026-01-21T23:36:16Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = 'houm-backend'
+app = 'houm'
 primary_region = 'arn'
 
 [build]
 
 [http_service]
-  internal_port = 8000
+  internal_port = 8080
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true

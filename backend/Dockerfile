@@ -9,7 +9,7 @@ WORKDIR /app
 COPY requirements.api.txt .
 RUN pip install --no-cache-dir -r requirements.api.txt
 
-COPY backend backend
+COPY backend
 
 EXPOSE 8000
 
