@@ -1,0 +1,7 @@
+openai
+openai-agents
+mcp
+psycopg2-binary
+fastapi
+uvicorn
+gunicorn

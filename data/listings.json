@@ -1,0 +1,80 @@
+{
+  "listings": [
+    {
+      "id": 1,
+      "title": "Hammock Bay Villa",
+      "location": "Oak Harbor, Stockholm County",
+      "price": "$1,250,000",
+      "beds": 4,
+      "baths": 3,
+      "area": "210 m2",
+      "year": 2018,
+      "image": "assets/house-placeholder.svg",
+      "features": [
+        "Dock access with sunset views",
+        "Heated stone floors",
+        "Glass atrium kitchen",
+        "Guest studio + sauna"
+      ],
+      "lat": 59.33258,
+      "lng": 18.0649
+    },
+    {
+      "id": 2,
+      "title": "Vinterhamn Loft",
+      "location": "Sodermalm, Stockholm",
+      "price": "$980,000",
+      "beds": 3,
+      "baths": 2,
+      "area": "155 m2",
+      "year": 2014,
+      "image": "assets/house-placeholder.svg",
+      "features": [
+        "Brick arches + skylights",
+        "Walkable waterfront",
+        "Custom oak cabinetry",
+        "Private rooftop terrace"
+      ],
+      "lat": 59.315,
+      "lng": 18.07
+    },
+    {
+      "id": 3,
+      "title": "Nordic Pines Retreat",
+      "location": "Nacka Nature Reserve",
+      "price": "$1,640,000",
+      "beds": 5,
+      "baths": 4,
+      "area": "260 m2",
+      "year": 2021,
+      "image": "assets/house-placeholder.svg",
+      "features": [
+        "Architectural cedar facade",
+        "Infinity plunge pool",
+        "Smart glass walls",
+        "Forest trail access"
+      ],
+      "lat": 59.296,
+      "lng": 18.166
+    },
+    {
+      "id": 4,
+      "title": "Gamla Stan Jewel",
+      "location": "Old Town, Stockholm",
+      "price": "$870,000",
+      "beds": 2,
+      "baths": 1,
+      "area": "98 m2",
+      "year": 1890,
+      "image": "assets/house-placeholder.svg",
+      "features": [
+        "Original timber beams",
+        "Boutique courtyard",
+        "Chef-ready galley",
+        "Private wine nook"
+      ],
+      "lat": 59.3258,
+      "lng": 18.0703
+    }
+  ]
+}

@@ -8,7 +8,15 @@ from openai import OpenAI
 
 MODEL = os.getenv("OPENAI_MODEL", "gpt-5-nano")
 MCP_SERVER_URL = os.getenv("MCP_SERVER_URL", "http://127.0.0.1:8787/sse")
-ALLOWED_TOOLS = ["list_users", "get_user", "get_user_by_email"]
+ALLOWED_TOOLS = [
+    "geo_nearby",
+    "geo_distance",
+    "listings_by_bbox",
+    "listings_search",
+    "listings_get",
+    "search_estimate",
+    "attributes_list",
+]
 
 
 def _get_attr(obj: Any, name: str, default: Any = None) -> Any:
@@ -45,7 +53,7 @@ def _stream_response(client: OpenAI, prompt: str) -> Any:
         tools=[
             {
                 "type": "mcp",
-                "server_label": "houm-users",
+                "server_label": "houm-geo",
                 "server_url": MCP_SERVER_URL,
                 "require_approval": "never",
                 "allowed_tools": ALLOWED_TOOLS,
@@ -71,7 +79,7 @@ def main() -> None:
     if not api_key:
         raise SystemExit("Missing OPENAI_API_KEY environment variable.")
     client = OpenAI(api_key=api_key)
-    prompt = "Find user_001 and summarize their profile."
+    prompt = "Find parks near Vasagatan 1, Stockholm."
     start = time.time()
     response = _stream_response(client, prompt)
     _log_tool_calls(response)

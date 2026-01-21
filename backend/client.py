@@ -29,16 +29,17 @@ async def main() -> None:
         async with ClientSession(read, write) as session:
             await session.initialize()
 
-            users = await session.call_tool("list_users", {"limit": 2, "offset": 0})
-            print("list_users:\n", _format_result(users))
-
-            user = await session.call_tool("get_user", {"user_id": "user_001"})
-            print("\nget_user:\n", _format_result(user))
-
-            by_email = await session.call_tool(
-                "get_user_by_email", {"email": "sam.berg@example.com"}
+            nearby = await session.call_tool(
+                "geo_nearby",
+                {"address": "Vasagatan 1, Stockholm", "place_type": "park", "limit": 3},
             )
-            print("\nget_user_by_email:\n", _format_result(by_email))
+            print("geo.nearby:\n", _format_result(nearby))
+
+            distance = await session.call_tool(
+                "geo_distance",
+                {"origin": "Stockholm Central Station", "destination": "Skansen"},
+            )
+            print("\ngeo.distance:\n", _format_result(distance))
 
 
 if __name__ == "__main__":
