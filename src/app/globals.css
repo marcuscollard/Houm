@@ -44,6 +44,8 @@ body {
   border-bottom: 1px solid var(--outline);
   background: rgba(255, 250, 245, 0.92);
   backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 20;
 }
 
 .topbar-actions {
@@ -80,6 +82,7 @@ body {
 
 .profile {
   position: relative;
+  z-index: 30;
 }
 
 .profile-button {
@@ -116,7 +119,7 @@ body {
   border: 1px solid var(--outline);
   background: var(--surface);
   box-shadow: var(--shadow);
-  z-index: 10;
+  z-index: 40;
 }
 
 .profile-popover.hidden {

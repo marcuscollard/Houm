@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-label="House placeholder">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d9e6f7" />
+      <stop offset="100%" stop-color="#f6f0e7" />
+    </linearGradient>
+    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8efe5" />
+      <stop offset="100%" stop-color="#efd9c8" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)" />
+  <rect y="520" width="1200" height="280" fill="#d7d2c6" />
+  <polygon points="200,520 600,260 1000,520" fill="#c96b4b" />
+  <rect x="280" y="410" width="640" height="320" rx="12" fill="url(#wall)" />
+  <rect x="530" y="520" width="140" height="210" rx="8" fill="#b1694c" />
+  <rect x="350" y="470" width="140" height="120" rx="6" fill="#90b3cc" />
+  <rect x="710" y="470" width="140" height="120" rx="6" fill="#90b3cc" />
+  <circle cx="585" cy="625" r="8" fill="#f1d3ad" />
+  <text x="80" y="140" font-family="Space Grotesk, Arial, sans-serif" font-size="42" fill="#3a3a3a">Listing preview</text>
+  <text x="80" y="190" font-family="Space Grotesk, Arial, sans-serif" font-size="22" fill="#5a5a5a">Replace with real images later</text>
+</svg>
