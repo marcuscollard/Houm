@@ -559,9 +559,7 @@ window.initMap = initMap;
 function initHelp() {
   const helpButton = document.getElementById("help-button");
   const helpModal = document.getElementById("help-modal");
-  const helpClose = document.getElementById("help-close");
-  const helpCta = document.getElementById("help-cta");
-  if (!helpButton || !helpModal || !helpClose) {
+  if (!helpButton || !helpModal) {
     return;
   }
 
@@ -575,26 +573,28 @@ function initHelp() {
     helpButton.setAttribute("aria-expanded", "false");
   };
 
-  helpButton.addEventListener("click", (event) => {
-    event.stopPropagation();
+  const toggleHelp = () => {
     if (helpModal.classList.contains("hidden")) {
       openHelp();
     } else {
       closeHelp();
     }
-  });
+  };
 
-  helpClose.addEventListener("click", (event) => {
-    event.stopPropagation();
-    closeHelp();
-  });
-
-  if (helpCta) {
-    helpCta.addEventListener("click", closeHelp);
-  }
-
-  helpModal.addEventListener("click", (event) => {
-    if (event.target === helpModal) {
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) {
+      return;
+    }
+    if (target.closest("#help-button")) {
+      toggleHelp();
+      return;
+    }
+    if (target.closest("#help-close") || target.closest("#help-cta")) {
+      closeHelp();
+      return;
+    }
+    if (target === helpModal) {
       closeHelp();
     }
   });

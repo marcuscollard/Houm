@@ -212,7 +212,7 @@ export default function Home() {
           </aside>
         </main>
       </div>
-      <Script src="/app.js" strategy="afterInteractive" />
+      <Script src="/app.js?v=4" strategy="afterInteractive" />
     </>
   );
 }
