@@ -16,6 +16,7 @@ except ImportError:  # pragma: no cover - fallback for direct script runs
     import settings
 
 
+
 def _ensure_columns(conn) -> None:
     with conn.cursor() as cur:
         cur.execute(

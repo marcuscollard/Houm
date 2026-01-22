@@ -18,6 +18,7 @@ def _server_params(server_path: str) -> dict[str, object]:
     return {
         "command": sys.executable,
         "args": [server_path],
+        "env": dict(os.environ),
     }
 
 

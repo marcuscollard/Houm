@@ -29,6 +29,12 @@ def _log_tool_call(name: str, payload: dict[str, Any] | None = None) -> None:
     print(f"[mcp] tool={name} payload={details}", file=sys.stderr, flush=True)
 
 
+def _log_tool_error(name: str, exc: Exception) -> None:
+    if not LOG_TOOL_CALLS:
+        return
+    print(f"[mcp] tool_error={name} error={exc}", file=sys.stderr, flush=True)
+
+
 def _require_maps_key() -> str:
     key = os.getenv("GOOGLE_MAPS_API_KEY") or settings.GOOGLE_MAPS_API_KEY
     if not key:
@@ -150,64 +156,68 @@ def _tag_query(field: str) -> tuple[str, str]:
 async def attributes_list() -> dict[str, Any]:
     """List queryable attributes for hard filters and analytics."""
     _log_tool_call("attributes_list")
-    hard_filters = {
-        "min_price": "numeric",
-        "max_price": "numeric",
-        "min_rooms": "numeric",
-        "max_rooms": "numeric",
-        "min_area": "numeric",
-        "max_area": "numeric",
-        "min_year": "numeric",
-        "max_year": "numeric",
-        "min_monthly_fee": "numeric",
-        "max_monthly_fee": "numeric",
-        "housing_forms": "list",
-        "housing_form": "list",
-        "tenure": "list",
-        "municipalities": "list",
-        "regions": "list",
-        "counties": "list",
-        "types": "list",
-        "districts": "list",
-        "bbox": "bbox[min_lng,min_lat,max_lng,max_lat]",
-    }
-    tag_fields = [
-        "housing_form",
-        "tenure",
-        "municipality_name",
-        "region_name",
-        "county_name",
-        "districts",
-        "type",
-        "labels",
-        "relevant_amenities",
-    ]
-    numeric_fields = [
-        "price",
-        "asked_price",
-        "rooms",
-        "square_meters",
-        "monthly_fee",
-        "year",
-    ]
-    available_columns = []
-    with _db_connect() as conn:
-        with conn.cursor() as cur:
-            cur.execute(
-                """
-                SELECT column_name
-                FROM information_schema.columns
-                WHERE table_name = 'hemnet_items';
-                """
-            )
-            available_columns = [row[0] for row in cur.fetchall()]
+    try:
+        hard_filters = {
+            "min_price": "numeric",
+            "max_price": "numeric",
+            "min_rooms": "numeric",
+            "max_rooms": "numeric",
+            "min_area": "numeric",
+            "max_area": "numeric",
+            "min_year": "numeric",
+            "max_year": "numeric",
+            "min_monthly_fee": "numeric",
+            "max_monthly_fee": "numeric",
+            "housing_forms": "list",
+            "housing_form": "list",
+            "tenure": "list",
+            "municipalities": "list",
+            "regions": "list",
+            "counties": "list",
+            "types": "list",
+            "districts": "list",
+            "bbox": "bbox[min_lng,min_lat,max_lng,max_lat]",
+        }
+        tag_fields = [
+            "housing_form",
+            "tenure",
+            "municipality_name",
+            "region_name",
+            "county_name",
+            "districts",
+            "type",
+            "labels",
+            "relevant_amenities",
+        ]
+        numeric_fields = [
+            "price",
+            "asked_price",
+            "rooms",
+            "square_meters",
+            "monthly_fee",
+            "year",
+        ]
+        available_columns = []
+        with _db_connect() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT column_name
+                    FROM information_schema.columns
+                    WHERE table_name = 'hemnet_items';
+                    """
+                )
+                available_columns = [row[0] for row in cur.fetchall()]
 
-    return {
-        "hard_filters": hard_filters,
-        "tag_fields": tag_fields,
-        "numeric_fields": numeric_fields,
-        "hemnet_items_columns": sorted(available_columns),
-    }
+        return {
+            "hard_filters": hard_filters,
+            "tag_fields": tag_fields,
+            "numeric_fields": numeric_fields,
+            "hemnet_items_columns": sorted(available_columns),
+        }
+    except Exception as exc:
+        _log_tool_error("attributes_list", exc)
+        raise
 
 
 def _jsonable(value: Any) -> Any:

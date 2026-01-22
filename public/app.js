@@ -542,6 +542,7 @@ async function loadPointsForMap() {
 
 function initApp() {
   loadGoogleMaps();
+  initHelp();
   initProfile();
   initFavorites();
   initMapQuery();
@@ -554,6 +555,56 @@ if (document.readyState === "loading") {
 }
 
 window.initMap = initMap;
+
+function initHelp() {
+  const helpButton = document.getElementById("help-button");
+  const helpModal = document.getElementById("help-modal");
+  const helpClose = document.getElementById("help-close");
+  const helpCta = document.getElementById("help-cta");
+  if (!helpButton || !helpModal || !helpClose) {
+    return;
+  }
+
+  const openHelp = () => {
+    helpModal.classList.remove("hidden");
+    helpButton.setAttribute("aria-expanded", "true");
+  };
+
+  const closeHelp = () => {
+    helpModal.classList.add("hidden");
+    helpButton.setAttribute("aria-expanded", "false");
+  };
+
+  helpButton.addEventListener("click", (event) => {
+    event.stopPropagation();
+    if (helpModal.classList.contains("hidden")) {
+      openHelp();
+    } else {
+      closeHelp();
+    }
+  });
+
+  helpClose.addEventListener("click", (event) => {
+    event.stopPropagation();
+    closeHelp();
+  });
+
+  if (helpCta) {
+    helpCta.addEventListener("click", closeHelp);
+  }
+
+  helpModal.addEventListener("click", (event) => {
+    if (event.target === helpModal) {
+      closeHelp();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !helpModal.classList.contains("hidden")) {
+      closeHelp();
+    }
+  });
+}
 
 function initProfile() {
   const profileButton = document.getElementById("profile-button");

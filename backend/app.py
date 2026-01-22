@@ -128,13 +128,13 @@ def _build_prompt(history, message, context=None):
 
 def _parse_assistant_output(reply: str):
     if not reply:
-        return "", [], {}
+        return "", [], {}, []
     try:
         payload = json.loads(reply)
     except Exception:
-        return reply, [], {}
+        return reply, [], {}, []
     if not isinstance(payload, dict):
-        return reply, [], {}
+        return reply, [], {}, []
     message = payload.get("message") or payload.get("reply") or ""
     if not isinstance(message, str):
         message = ""
@@ -165,7 +165,13 @@ def _parse_assistant_output(reply: str):
                 [item for item in cons if isinstance(item, str)] if isinstance(cons, list) else []
             )
             recommendation_notes[hemnet_id] = {"pros": pros_list, "cons": cons_list}
-    return message or reply, recommended_ids, recommendation_notes
+
+    tools_used = []
+    tools_raw = payload.get("tools_used") or []
+    if isinstance(tools_raw, list):
+        tools_used = [item for item in tools_raw if isinstance(item, str)]
+
+    return message or reply, recommended_ids, recommendation_notes, tools_used
 
 
 def _agent_used_tool(result) -> bool:
@@ -199,7 +205,11 @@ async def _run_agent(prompt: str) -> str:
     server_path = os.path.join(BASE_DIR, "backend", "server.py")
     async with MCPServerStdio(
         name="houm_mcp",
-        params={"command": sys.executable, "args": [server_path]},
+        params={
+            "command": sys.executable,
+            "args": [server_path],
+            "env": dict(os.environ),
+        },
     ) as mcp_server:
         try:
             agent = Agent(
@@ -563,12 +573,15 @@ async def assistant(payload: dict = Body(default=None)):
         reply = await _run_agent(prompt)
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"assistant_failed: {exc}") from exc
-    reply_text, recommended_ids, recommendation_notes = _parse_assistant_output(reply)
+    reply_text, recommended_ids, recommendation_notes, tools_used = _parse_assistant_output(reply)
+    if tools_used:
+        print(f"[assistant] tools_used={tools_used}", file=sys.stderr, flush=True)
     return JSONResponse(
         {
             "reply": reply_text,
             "recommended_ids": recommended_ids,
             "recommendation_notes": recommendation_notes,
+            "tools_used": tools_used,
         },
         headers={"Cache-Control": "no-store"},
     )

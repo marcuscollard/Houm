@@ -80,6 +80,80 @@ body {
   box-shadow: 0 12px 30px rgba(35, 22, 12, 0.12);
 }
 
+.help-button {
+  border-color: var(--outline);
+}
+
+.help-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(31, 27, 23, 0.35);
+  backdrop-filter: blur(6px);
+  z-index: 60;
+}
+
+.help-modal.hidden {
+  display: none;
+}
+
+.help-card {
+  width: min(520px, 92vw);
+  background: var(--surface);
+  border: 1px solid var(--outline);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.help-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.help-header h2 {
+  margin: 0;
+  font-family: "Fraunces", "Times New Roman", serif;
+  font-size: 24px;
+}
+
+.help-close {
+  border: 1px solid var(--outline);
+  background: var(--surface);
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.help-subtitle {
+  margin: 6px 0 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.help-list {
+  margin: 0 0 18px;
+  padding-left: 18px;
+  color: var(--deep);
+  font-size: 14px;
+}
+
+.help-list li {
+  margin-bottom: 8px;
+}
+
+.help-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .profile {
   position: relative;
   z-index: 30;

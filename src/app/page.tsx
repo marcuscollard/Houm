@@ -13,7 +13,16 @@ export default function Home() {
             </div>
           </div>
           <div className="topbar-actions">
-            <button className="cta">List your home</button>
+            <button
+              className="cta help-button"
+              id="help-button"
+              type="button"
+              aria-haspopup="dialog"
+              aria-expanded="false"
+              aria-controls="help-modal"
+            >
+              Help
+            </button>
             <div className="profile">
               <button
                 className="profile-button"
@@ -57,6 +66,29 @@ export default function Home() {
             </div>
           </div>
         </header>
+        <div className="help-modal hidden" id="help-modal" role="dialog" aria-label="How to use Houm">
+          <div className="help-card">
+            <div className="help-header">
+              <h2>How to use Houm</h2>
+              <button className="help-close" id="help-close" type="button" aria-label="Close help">
+                X
+              </button>
+            </div>
+            <p className="help-subtitle">Quick tips to get the most out of the map.</p>
+            <ul className="help-list">
+              <li>Pan or zoom to load listings in the visible map area.</li>
+              <li>Click a marker to open the full listing panel.</li>
+              <li>Ask the assistant for filters like budget, rooms, or parks nearby.</li>
+              <li>Sign in with your name to save favorites and preferences.</li>
+              <li>Green markers are assistant recommendations with pros/cons on the right.</li>
+            </ul>
+            <div className="help-actions">
+              <button className="cta" id="help-cta" type="button">
+                Got it
+              </button>
+            </div>
+          </div>
+        </div>
 
         <main className="content">
           <aside className="assistant-panel">
