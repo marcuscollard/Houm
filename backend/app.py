@@ -639,6 +639,12 @@ def listing_get(hemnet_id: str):
         row[key] = _coerce_json(row.get(key))
 
     row["image_url"] = _select_image_url(row)
+    if row.get("floorplan_image_bytes"):
+        row["floorplan_image_url"] = _absolute_path(
+            f"/api/listings/{row['hemnet_id']}/image/floorplan"
+        )
+    else:
+        row["floorplan_image_url"] = None
     row.pop("main_image_bytes", None)
     row.pop("floorplan_image_bytes", None)
     row.pop("main_image_mime", None)

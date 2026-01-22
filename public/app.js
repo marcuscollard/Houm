@@ -57,6 +57,8 @@ const listingBaths = document.getElementById("listing-baths");
 const listingArea = document.getElementById("listing-area");
 const listingYear = document.getElementById("listing-year");
 const listingImage = document.getElementById("listing-image");
+const listingPrevImageButton = document.getElementById("listing-prev-image");
+const listingNextImageButton = document.getElementById("listing-next-image");
 const listingFeatures = document.getElementById("listing-features");
 const listingPros = document.getElementById("listing-pros");
 const listingCons = document.getElementById("listing-cons");
@@ -72,6 +74,9 @@ let lastBbox = null;
 let pointsLoading = false;
 const mapQueryStorageKey = "houmMapQueryHistory";
 let mapQueryInitialized = false;
+let listingImageMode = "main";
+let listingImageUrls = { main: null, floorplan: null };
+let listingImageTitle = "";
 
 const apiBase =
   typeof document !== "undefined" ? document.body?.dataset.apiBase || "" : "";
@@ -125,6 +130,44 @@ function formatArea(listing) {
     return `${numberFormatter.format(listing.square_meters)} m2`;
   }
   return "—";
+}
+
+function updateListingImageControls() {
+  if (!listingPrevImageButton || !listingNextImageButton) {
+    return;
+  }
+  if (listingImageUrls.floorplan) {
+    listingPrevImageButton.classList.remove("hidden");
+    listingNextImageButton.classList.remove("hidden");
+    listingPrevImageButton.disabled = listingImageMode === "main";
+    listingNextImageButton.disabled = listingImageMode === "floorplan";
+  } else {
+    listingPrevImageButton.classList.add("hidden");
+    listingNextImageButton.classList.add("hidden");
+    listingPrevImageButton.disabled = true;
+    listingNextImageButton.disabled = true;
+  }
+}
+
+function setListingImageMode(mode) {
+  if (!listingImage) {
+    return;
+  }
+  if (mode === "floorplan" && !listingImageUrls.floorplan) {
+    mode = "main";
+  }
+  listingImageMode = mode === "floorplan" ? "floorplan" : "main";
+  const nextUrl =
+    listingImageMode === "floorplan"
+      ? listingImageUrls.floorplan
+      : listingImageUrls.main;
+  if (nextUrl) {
+    listingImage.src = nextUrl;
+  }
+  const label = listingImageTitle || "Listing";
+  listingImage.alt =
+    listingImageMode === "floorplan" ? `Floor plan for ${label}` : label;
+  updateListingImageControls();
 }
 
 function updateFavoriteButton() {
@@ -245,10 +288,18 @@ function updateListing(listing) {
   listingBaths.textContent = formatSek(listing.monthly_fee);
   listingArea.textContent = formatArea(listing);
   listingYear.textContent = listing.year || "—";
-  const rawImageUrl =
+  listingImageTitle = listing.title || listing.address || "Listing";
+  const rawMainImageUrl =
     listing.image_url || listing.main_image_url || "assets/house-placeholder.svg";
-  listingImage.src = resolveApiAssetUrl(rawImageUrl);
-  listingImage.alt = listing.title || listing.address || "Listing";
+  const rawFloorplanUrl = listing.floorplan_image_url || null;
+  listingImageUrls = {
+    main: resolveApiAssetUrl(rawMainImageUrl),
+    floorplan: rawFloorplanUrl ? resolveApiAssetUrl(rawFloorplanUrl) : null,
+  };
+  listingImageMode = "main";
+  listingImage.src = listingImageUrls.main;
+  listingImage.alt = listingImageTitle;
+  updateListingImageControls();
 
   listingFeatures.innerHTML = "";
   extractFeatures(listing).forEach((feature) => {
@@ -543,6 +594,7 @@ async function loadPointsForMap() {
 function initApp() {
   loadGoogleMaps();
   initHelp();
+  initListingImages();
   initProfile();
   initFavorites();
   initMapQuery();
@@ -555,6 +607,20 @@ if (document.readyState === "loading") {
 }
 
 window.initMap = initMap;
+
+function initListingImages() {
+  if (listingPrevImageButton) {
+    listingPrevImageButton.addEventListener("click", () => {
+      setListingImageMode("main");
+    });
+  }
+  if (listingNextImageButton) {
+    listingNextImageButton.addEventListener("click", () => {
+      setListingImageMode("floorplan");
+    });
+  }
+  updateListingImageControls();
+}
 
 function initHelp() {
   const helpButton = document.getElementById("help-button");

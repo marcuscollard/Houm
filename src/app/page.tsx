@@ -134,13 +134,39 @@ export default function Home() {
               </div>
             </div>
             <div className="map-legend">
-              <span className="legend-dot"></span>
-              <span>Tap a dot to load the home details.</span>
+              <div className="legend-item">
+                <span className="legend-dot"></span>
+                <span>Listings</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-dot legend-dot--saved"></span>
+                <span>Saved</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-dot legend-dot--recommended"></span>
+                <span>Recommended</span>
+              </div>
             </div>
           </section>
 
           <aside className="listing-panel">
             <div className="listing-media">
+              <button
+                className="listing-image-toggle left hidden"
+                id="listing-prev-image"
+                type="button"
+                aria-label="Show main image"
+              >
+                {"<"}
+              </button>
+              <button
+                className="listing-image-toggle right hidden"
+                id="listing-next-image"
+                type="button"
+                aria-label="Show floor plan"
+              >
+                {">"}
+              </button>
               <img
                 id="listing-image"
                 src="assets/house-placeholder.svg"
@@ -212,7 +238,7 @@ export default function Home() {
           </aside>
         </main>
       </div>
-      <Script src="/app.js?v=4" strategy="afterInteractive" />
+      <Script src="/app.js?v=5" strategy="afterInteractive" />
     </>
   );
 }
